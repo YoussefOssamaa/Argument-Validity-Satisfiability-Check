@@ -151,7 +151,7 @@ for (const auto& element : mainChar) {
 
 vector <VarStruct> instances ;
     ///A B C
-for (int i=0 ; i < (int) mainChar.size() ; i++){
+for (int i=0 ; i < (int) mainChar.size()-1 ; i++){
 
  VarStruct obj(mainChar[i] , truthTables[i] );
  instances.push_back(obj) ;
@@ -174,11 +174,13 @@ for (const auto& element : instances[2].truth_vector) {
         std::cout << element << " ";
     }std::cout << " \n";
 
+//cout <<"Str1 "<<str1;
 
-    if ( (mainStr[0]>= 65 && mainStr[0] <=90) || (mainStr[0] >= 97 && mainStr[0] <=122)  ){
 
-    if (mainStr[0] == instances[0].name && mainStr[2] == instances[1].name){  ///A K
-            /*switch(mainStr[1]){
+    if ( (str1[0]>= 65 && str1[0] <=90) || (str1[0] >= 97 && str1[0] <=122)  ){
+
+    if (str1[0] == instances[0].name && str1[2] == instances[1].name){  ///A K
+            switch(str1[1]){
         case('^'):  ///A^K
             for (int i = 0 ; i < (int) instances[0].truth_vector.size()-1; i++  ){
             statement1_result [i] = instances[0].truth_vector[i] && instances[1].truth_vector[i];
@@ -191,15 +193,15 @@ for (const auto& element : instances[2].truth_vector) {
             break;
 
             default: cout<<"error" ;
-            }*/
+            }
 
-            cout<<"mainStr[0] == instances[0].name && mainStr[2] == instances[1].name " ;
+            cout<<"str1[0] == instances[0].name && str1[2] == instances[1].name " ;
 
     }
 
-    else if (mainStr[0] == instances[0].name && mainStr[2] == instances[2].name){ ///A M
+    else if (str1[0] == instances[0].name && str1[2] == instances[2].name){ ///A M
 
-         /*switch(mainStr[1]){
+         switch(str1[1]){
         case('^'):  ///A^M
             for (int i = 0 ; i < (int) instances[0].truth_vector.size()-1 ; i++  ){
             statement1_result [i] = instances[0].truth_vector[i] && instances[2].truth_vector[i];
@@ -210,13 +212,13 @@ for (const auto& element : instances[2].truth_vector) {
             statement1_result [i] = instances[0].truth_vector[i] || instances[2].truth_vector[i];
             }
             break;
-            }*/
-            cout<<"mainStr[0] == instances[0].name && mainStr[2] == instances[2].name" ;
+            }
+            cout<<"str1[0] == instances[0].name && str1[2] == instances[2].name" ;
 
     }
 
-    else if (mainStr[0] == instances[1].name && mainStr[2] == instances[2].name){ ///K M
-        /*switch(mainStr[1]){
+    else if (str1[0] == instances[1].name && str1[2] == instances[2].name){ ///K M
+        switch(str1[1]){
         case('^'):  ///K^M
             for (int i = 0 ; i < (int) instances[0].truth_vector.size()-1 ; i++  ){
             statement1_result [i] = instances[1].truth_vector[i] && instances[2].truth_vector[i];
@@ -228,15 +230,15 @@ for (const auto& element : instances[2].truth_vector) {
             }
             break;
             default: cout<<"error" ;
-            }*/
+            }
 
-            cout<<"mainStr[0] == instances[1].name && mainStr[2] == instances[2].name" ;
+            cout<<"str1[0] == instances[1].name && str1[2] == instances[2].name" ;
      }
 
     }else {
 
     ///if the first element is not
-    switch(mainStr[0]){
+    switch(str1[0]){
     case('~'):
     for (int i = 0 ; i < (int) instances[0].truth_vector.size() ; i++  ){
         instances[0].truth_vector[i] = ! instances[0].truth_vector[i];
@@ -250,7 +252,7 @@ for (const auto& element : instances[0].truth_vector) {
 
     }
 
-   /
+
 
 
 
