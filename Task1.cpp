@@ -7,10 +7,10 @@ using namespace std ;
 
 class VarStruct{
 private:
-
-public:
 char name ;
 vector <int> truth_vector ;
+public:
+
 
 VarStruct(){}
 
@@ -20,6 +20,17 @@ this ->truth_vector = truth_vec ;
 }
 
 
+char getName(){
+return this->name;
+}
+
+vector <int> getVector(){
+return this->truth_vector;
+}
+
+void setVector(int pos , int value ){
+this->truth_vector[pos] =  value ;
+}
 
 
 };
@@ -72,13 +83,15 @@ cout<<"Enter second statement: ";
 cin>>str2 ;
 mainStr = str1 + str2 ;
 
+cout<<"Conc input: " ;
+cout<<mainStr<<endl;
 
 for (char element : mainStr){
     repeated = 0 ;
     if( (element >= 65 && element <=90) || (element >= 97 && element <=122) ) ///check for characters from a->z or from A->Z
         {
 
-        for (int i=0 ; i < (int) mainChar.size()-1 ; i++){
+        for (int i=0 ; i <= (int) mainChar.size()-1 ; i++){
             if (element == mainChar[i]){
                 repeated = 1 ;
                 break ;
@@ -91,6 +104,11 @@ for (char element : mainStr){
 
     }
 }
+cout<<"Variables: " ;
+ for (const auto& element : mainChar) {
+        std::cout << element << " ";
+    }std::cout << " \n";
+
 
 bool boo = 1 ;
 int k=3;  ///number of variables
@@ -122,62 +140,49 @@ for (int l = 0 ; l < pow(2,k) ; l++ ){
     boo = ! boo ;
     }
 
-/*
- for (const auto& element : v1) {
-        std::cout << element << " ";
-    }std::cout << " \n";
-    for (const auto& element : v2) {
-        std::cout << element << " ";
-    }std::cout << " \n";
-    for (const auto& element : v3) {
-        std::cout << element << " ";
-    }std::cout << " \n";
-  */
 
-///Vector that contains the 3 truth tables
-vector < vector<int> > truthTables ;
-truthTables.push_back(v1);
-truthTables.push_back(v2);
-truthTables.push_back(v3);
+///Truth table that contains the 3 truth vectors
+vector < vector<int> > truthTable ;
+truthTable.push_back(v1);
+truthTable.push_back(v2);
+truthTable.push_back(v3);
 
-/*for (const auto& element : truthTables[2]) {
-        std::cout << element << " ";
-    }std::cout << " \n";
-*/
-cout<<"Main Characters: " ;
-for (const auto& element : mainChar) {
-        std::cout << element << " ";
-    }std::cout << " \n";
+
+
+
+    ///if the 3 variables are A B C; we will give each of them a truth vector; to construct an initial truth table of 3 variables
 
 vector <VarStruct> instances ;
-    ///A B C
-for (int i=0 ; i < (int) mainChar.size()-1 ; i++){
 
- VarStruct obj(mainChar[i] , truthTables[i] );
+for (int i=0 ; i <= (int) mainChar.size()-1 ; i++){
+cout<<i<<endl ;
+ VarStruct obj(mainChar[i] , truthTable[i] );
  instances.push_back(obj) ;
 }
 
 
-cout<< instances[0].name ;
-for (const auto& element : instances[0].truth_vector) {
+cout<< instances[0].getName()<<" " ;
+for (const auto& element : instances[0].getVector()  ) {
         std::cout << element << " ";
     }std::cout << " \n";
 
-cout<< instances[1].name ;
-for (const auto& element : instances[1].truth_vector) {
+cout<< instances[1].getName() <<" " ;
+for (const auto& element : instances[1].getVector()  ) {
         std::cout << element << " ";
     }std::cout << " \n";
 
 
-cout<< instances[2].name ;
-for (const auto& element : instances[2].truth_vector) {
+cout<< instances[2].getName() <<" " ;
+for (const auto& element : instances[2].getVector()  ) {
         std::cout << element << " ";
     }std::cout << " \n";
 
-//cout <<"Str1 "<<str1;
+cout<<str1<<endl;
 
+////////////////Getting the truth table of the first statement
 
-    if ( (str1[0]>= 65 && str1[0] <=90) || (str1[0] >= 97 && str1[0] <=122)  ){
+    if ( (str1[0]>= 65 && str1[0] <=90) || (str1[0] >= 97 && str1[0] <=122)  ) ///Check if the first char is a variable not a NOT gate
+        {
 
     if (str1[0] == instances[0].name && str1[2] == instances[1].name){  ///A K
             switch(str1[1]){
@@ -233,20 +238,22 @@ for (const auto& element : instances[2].truth_vector) {
             }
 
             cout<<"str1[0] == instances[1].name && str1[2] == instances[2].name" ;
+
      }
 
-    }else {
 
-    ///if the first element is not
-    switch(str1[0]){
-    case('~'):
-    for (int i = 0 ; i < (int) instances[0].truth_vector.size() ; i++  ){
-        instances[0].truth_vector[i] = ! instances[0].truth_vector[i];
+
+
+
+    }else if ( (str1[0] == '~') && ( (str1[1] >= 65 && str1[1] <=90) || (str1[0] >= 97 && str1[0] <=122)   )  ) {   ///if the first char is NOT gate; and the 2nd char is a variable not a '('
+
+    for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+        instances[0].setVector(i , !(instances[0].getVector()[i]) ) ;   ///Toggeling the truth vector
     }
 
-    }
-    cout<< instances[0].name ;
-for (const auto& element : instances[0].truth_vector) {
+    cout<<endl<<endl<<endl<<endl;
+    cout<< instances[0].getName()<<" " ;
+    for (const auto& element : instances[0].getVector()) {
         std::cout << element << " ";
     }std::cout << " \n";
 
@@ -257,34 +264,22 @@ for (const auto& element : instances[0].truth_vector) {
 
 
 
-
-
-/*
-cout<<"is there other statements? (y/n)";
-cin>> cont ;
-if (cont == 'y' || cont == 'Y' ){
-    cout<<"Enter the first statement: ";
-    cin>>str ;
-
-}else{
-
-
-}*/
-
-
-////Stack k ;
-////k.push('K') ;
-////k.push('A') ;
-////k.push('T') ;
-////cout << k.pop() ;
-
-
-
-
-
-
-
-
 return 0;
 
 }
+
+
+
+
+/*
+ for (const auto& element : v1) {
+        std::cout << element << " ";
+    }std::cout << " \n";
+    for (const auto& element : v2) {
+        std::cout << element << " ";
+    }std::cout << " \n";
+    for (const auto& element : v3) {
+        std::cout << element << " ";
+    }std::cout << " \n";
+  */
+
