@@ -5,6 +5,8 @@
 
 using namespace std ;
 
+
+
 class VarStruct{
 private:
 char name ;
@@ -35,6 +37,11 @@ this->truth_vector[pos] =  value ;
 
 };
 
+vector <int> calculate (string str1) ;
+vector <VarStruct> instances ;
+vector <int> statement1_result ;   ///save the truth vector of the first statement
+vector <int> statement2_result ;   ///save the truth vector of the second statement
+
 
 class Stack {
     private:
@@ -59,6 +66,24 @@ class Stack {
     }
 };
 
+
+vector <int> notVector(vector <int> v){
+    vector <int> vNot ;
+    for (int i = 0 ; i <= (int) v.size()-1 ; i++  ){
+        vNot.push_back(!v[i]);
+        }
+return vNot ;
+}
+
+
+
+bool containBracket(string str){
+
+return str.find('(') != string::npos ;  /// if no bracket find() will return npos
+}
+
+
+
 int main(){
 
 string str1;
@@ -66,16 +91,13 @@ string str2;
 string mainStr;
 
 vector <char> mainChar ;
-vector <int> statement1_result ;
-vector <int> statement2_result ;
+
 
 
 bool repeated ;
 VarStruct var1 ;
 VarStruct var2 ;
 VarStruct var3 ;
-
-
 
 cout<<"Enter first statement: ";
 cin>>str1 ;
@@ -150,7 +172,7 @@ truthTable.push_back(v3);
 
 
 
-    ///if the 3 variables are A B C; we will give each of them a truth vector; to construct an initial truth table of 3 variables
+    ///if the 3 variables are A K M; we will give each of them a truth vector; to construct an initial truth table of 3 variables
 
 vector <VarStruct> instances ;
 
@@ -177,73 +199,237 @@ for (const auto& element : instances[2].getVector()  ) {
         std::cout << element << " ";
     }std::cout << " \n";
 
-cout<<str1<<endl;
+cout<<"str1: "<<str1<<endl;
+cout<<"str2: "<<str2<<endl;
+if ((int)str1.size()==3 ){
+    vector <int> statement1_result11 = calculate (str1);
+
+    cout<<"egababaa" ;
+    for (const auto& element : statement1_result11) {
+            std::cout << element << " ";
+    }       std::cout << " \n";}
+
+
+    return 0 ;
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 ////////////////Getting the truth table of the first statement
 
-    if ( (str1[0]>= 65 && str1[0] <=90) || (str1[0] >= 97 && str1[0] <=122)  ) ///Check if the first char is a variable not a NOT gate
-        {
 
-    if (str1[0] == instances[0].name && str1[2] == instances[1].name){  ///A K
+vector <int> calculate (string str1){
+
+
+   // if ( (str1[0]>= 65 && str1[0] <=90) || (str1[0] >= 97 && str1[0] <=122)  ) { ///Check if the first char is a variable not a NOT gate
+
+
+cout<<"str1[0]= "<<str1[0]<< " instances[0]="<<instances[0].getName()<<"str1[2]= "<<str1[2]<< " instances[1]="<<instances[1].getName()<<endl ;
+
+    if ( (str1[0] == instances[0].getName()) && (str1[2] == instances[1].getName())   ) {  ///A K
+
+        cout<<"tmammmm";
+
             switch(str1[1]){
         case('^'):  ///A^K
-            for (int i = 0 ; i < (int) instances[0].truth_vector.size()-1; i++  ){
-            statement1_result [i] = instances[0].truth_vector[i] && instances[1].truth_vector[i];
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1; i++  ){
+            statement1_result.push_back(  (instances[0].getVector()[i])  && ( instances[1].getVector()[i] )   )   ;
             }
             break;
         case('v'):  ///AvK
-            for (int i = 0 ; i < (int) instances[0].truth_vector.size()-1 ; i++  ){
-            statement1_result [i] = instances[0].truth_vector[i] || instances[1].truth_vector[i];
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result.push_back(  (instances[0].getVector()[i])  || ( instances[1].getVector()[i] )   ) ;
             }
             break;
 
             default: cout<<"error" ;
             }
 
-            cout<<"str1[0] == instances[0].name && str1[2] == instances[1].name " ;
+            cout<<"str1[0] == instances[0].getName() && str1[2] == instances[1].getName() " <<endl;
+            for (const auto& element : statement1_result) {
+            std::cout << element << " ";
+    }       std::cout << " \n";
+
+
 
     }
 
-    else if (str1[0] == instances[0].name && str1[2] == instances[2].name){ ///A M
+    else if (str1[0] == instances[0].getName() && str1[2] == instances[2].getName()){ ///A M
 
          switch(str1[1]){
         case('^'):  ///A^M
-            for (int i = 0 ; i < (int) instances[0].truth_vector.size()-1 ; i++  ){
-            statement1_result [i] = instances[0].truth_vector[i] && instances[2].truth_vector[i];
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result [i] = instances[0].getVector()[i] && instances[2].getVector()[i];
             }
             break;
         case('v'):  ///AvM
-            for (int i = 0 ; i < (int) instances[0].truth_vector.size()-1 ; i++  ){
-            statement1_result [i] = instances[0].truth_vector[i] || instances[2].truth_vector[i];
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result [i] = instances[0].getVector()[i] || instances[2].getVector()[i];
             }
             break;
             }
-            cout<<"str1[0] == instances[0].name && str1[2] == instances[2].name" ;
+
+            cout<<"str1[0] == instances[0].getName() && str1[2] == instances[2].getName()" <<endl;
+            for (const auto& element : statement1_result) {
+            std::cout << element << " ";
+    }       std::cout << " \n";
 
     }
 
-    else if (str1[0] == instances[1].name && str1[2] == instances[2].name){ ///K M
+    else if (str1[0] == instances[1].getName() && str1[2] == instances[2].getName()){ ///K M
         switch(str1[1]){
         case('^'):  ///K^M
-            for (int i = 0 ; i < (int) instances[0].truth_vector.size()-1 ; i++  ){
-            statement1_result [i] = instances[1].truth_vector[i] && instances[2].truth_vector[i];
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result [i] = instances[1].getVector()[i] && instances[2].getVector()[i];
             }
             break;
         case('v'):  ///KvM
-            for (int i = 0 ; i < (int) instances[0].truth_vector.size()-1 ; i++  ){
-            statement1_result [i] = instances[1].truth_vector[i] || instances[2].truth_vector[i];
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result [i] = instances[1].getVector()[i] || instances[2].getVector()[i];
             }
             break;
             default: cout<<"error" ;
             }
 
-            cout<<"str1[0] == instances[1].name && str1[2] == instances[2].name" ;
+            cout<<"str1[0] == instances[1].getName() && str1[2] == instances[2].getName()" <<endl;
+            for (const auto& element : statement1_result) {
+            std::cout << element << " ";
+    }       std::cout << " \n";}
 
-     }
+    return statement1_result ;
+
+
+    }
+
+
+    /*else if ( (str1[0] == '~') && ( (str1[1] >= 65 && str1[1] <=90) || (str1[0] >= 97 && str1[0] <=122)   )  ) {   ///if the first char is NOT gate; and the 2nd char is a variable not a '('
+
+    for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+        instances[0].setVector(i , !(instances[0].getVector()[i]) ) ;   ///Toggeling the truth vector of the variable
+    }
+
+    cout<<endl<<endl<<endl<<endl;
+    cout<< instances[0].getName()<<" " ;
+    for (const auto& element : instances[0].getVector()) {
+        std::cout << element << " ";
+    }std::cout << " \n";
+
+    }
+    else if( containBracket(str1) ){  ///if the first char is NOT gate; and the 2nd char is a '('
+
+    int startStr = str1.find('(');
+    int endStr = str1.find(')');
+    string subStr1 = str1.substr(startStr , endStr - startStr + 1 ) ;
+    vector <int> Notvetor = notVector()
+
+
+    }*/
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //cout<<"str2: "<< str2 <<endl;
+
+    /*
+
+    if ( (str2[0]>= 65 && str1[0] <=90) || (str1[0] >= 97 && str1[0] <=122)  ) { ///Check if the first char is a variable not a NOT gate
+
+
+cout<<"str1[0]= "<<str1[0]<< " instances[0]="<<instances[0].getName()<<"str1[2]= "<<str1[2]<< " instances[1]="<<instances[1].getName()<<endl ;
+
+    if ( (str1[0] == instances[0].getName()) && (str1[2] == instances[1].getName())   ) {  ///A K
+
+        cout<<"tmammmm";
+
+            switch(str1[1]){
+        case('^'):  ///A^K
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1; i++  ){
+            statement1_result.push_back(  (instances[0].getVector()[i])  && ( instances[1].getVector()[i] )   )   ;
+            }
+            break;
+        case('v'):  ///AvK
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result.push_back(  (instances[0].getVector()[i])  || ( instances[1].getVector()[i] )   ) ;
+            }
+            break;
+
+            default: cout<<"error" ;
+            }
+
+            cout<<"str1[0] == instances[0].getName() && str1[2] == instances[1].getName() " <<endl;
+            for (const auto& element : statement1_result) {
+            std::cout << element << " ";
+    }       std::cout << " \n";
+
+
+
+    }
+
+    else if (str1[0] == instances[0].getName() && str1[2] == instances[2].getName()){ ///A M
+
+         switch(str1[1]){
+        case('^'):  ///A^M
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result [i] = instances[0].getVector()[i] && instances[2].getVector()[i];
+            }
+            break;
+        case('v'):  ///AvM
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result [i] = instances[0].getVector()[i] || instances[2].getVector()[i];
+            }
+            break;
+            }
+
+            cout<<"str1[0] == instances[0].getName() && str1[2] == instances[2].getName()" <<endl;
+            for (const auto& element : statement1_result) {
+            std::cout << element << " ";
+    }       std::cout << " \n";
+
+    }
+
+    else if (str1[0] == instances[1].getName() && str1[2] == instances[2].getName()){ ///K M
+        switch(str1[1]){
+        case('^'):  ///K^M
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result [i] = instances[1].getVector()[i] && instances[2].getVector()[i];
+            }
+            break;
+        case('v'):  ///KvM
+            for (int i = 0 ; i <= (int) instances[0].getVector().size()-1 ; i++  ){
+            statement1_result [i] = instances[1].getVector()[i] || instances[2].getVector()[i];
+            }
+            break;
+            default: cout<<"error" ;
+            }
+
+            cout<<"str1[0] == instances[1].getName() && str1[2] == instances[2].getName()" <<endl;
+            for (const auto& element : statement1_result) {
+            std::cout << element << " ";
+    }       std::cout << " \n";}
 
     }else if ( (str1[0] == '~') && ( (str1[1] >= 65 && str1[1] <=90) || (str1[0] >= 97 && str1[0] <=122)   )  ) {   ///if the first char is NOT gate; and the 2nd char is a variable not a '('
 
@@ -261,12 +447,9 @@ cout<<str1<<endl;
 
 
 
+*/
 
 
-
-return 0;
-
-}
 
 
 
